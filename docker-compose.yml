@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_DB: ecommerce
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    restart: always
+
+    build: ./auth_service  # <-- Build context points to auth_service folder
+    command: python app.py
+    volumes:
+      - ./auth_service:/app  # <-- Mount auth_service folder to /app in container
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URI: postgresql://postgres:password@db:5432/ecommerce
+      JWT_SECRET_KEY: super-secret-key
+
+volumes:
+  postgres_data:
