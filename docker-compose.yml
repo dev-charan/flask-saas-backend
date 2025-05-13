@@ -37,6 +37,25 @@ services:
     environment:
       DATABASE_URI: postgresql://postgres:password@db:5432/ecommerce
       FLASK_ENV: development
+  order_service: # New service
+    build: ./order_service
+    restart: always
+    command: python app.py # Assuming app.py is your entry point
+    volumes:
+      - ./order_service:/app
+    ports:
+      - "5002:5002" # host:container, internal Flask app runs on 5000
+    depends_on:
+      - db
+      - auth_service # For token validation (if done locally) or calling auth endpoints
+      - product_service # To fetch product details
+    environment:
+      DATABASE_URI: postgresql://postgres:password@db:5432/ecommerce
+      JWT_SECRET_KEY: super-secret-key # Shared secret key for local JWT validation
+      PRODUCT_SERVICE_URL: http://product_service:5000 # Internal URL for product service
+      # AUTH_SERVICE_URL: http://auth_service:5000 # If you need to call auth service for user details
+      FLASK_ENV: development
+
 
 volumes:
   postgres_data:

@@ -1,0 +1,9 @@
+Flask==2.3.3
+Flask-SQLAlchemy==3.1.1
+SQLAlchemy==2.0.25 # Or your preferred version compatible with Flask-SQLAlchemy
+psycopg2-binary==2.9.9 # For PostgreSQL
+Flask-Migrate==4.0.5 # For database migrations
+python-dotenv==1.0.0 # To load .env files for local dev (optional)
+PyJWT==2.8.0 # For JWT decoding
+requests==2.31.0 # For making HTTP requests to other services
+gunicorn==21.2.0 # For production (optional, but good practice)
