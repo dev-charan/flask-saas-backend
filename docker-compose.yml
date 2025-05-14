@@ -8,7 +8,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -19,7 +19,7 @@ services:
     volumes:
       - ./auth_service:/app
     ports:
-      - "5000:5000"
+      - "5001:5000"
     depends_on:
       - db
     environment:
@@ -31,7 +31,7 @@ services:
     volumes:
       - ./product_service:/app
     ports:
-      - "5001:5000"  # host:container
+      - "5002:5000"  # host:container
     depends_on:
       - db
     environment:
@@ -44,7 +44,7 @@ services:
     volumes:
       - ./order_service:/app
     ports:
-      - "5002:5002" # host:container, internal Flask app runs on 5000
+      - "5003:5002" # host:container, internal Flask app runs on 5000
     depends_on:
       - db
       - auth_service # For token validation (if done locally) or calling auth endpoints
